@@ -1,25 +1,35 @@
-import logo from './logo.svg';
-import './App.css';
+import "./App.css";
+import "bootstrap/dist/css/bootstrap.min.css";
+import "bootstrap/dist/js/bootstrap.bundle.min.js";
+import NoPage from "./components/admin/NoPage";
+import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
+import AdminRoutes from "./components/Routes/adminRoutes";
+import { AdminProvider } from "./components/context/AdminContext";
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <>
+      <Router>
+        <Routes>
+          <Route path="/" element={<Navigate to={'/admin'}/>}/>
+          <Route
+            path="/admin/*"
+            element={
+              <AdminProvider>
+                <AdminLayout />
+              </AdminProvider>
+            }
+          />
+
+          <Route path="*" element={<NoPage />} />
+        </Routes>
+      </Router>
+    </>
   );
+}
+
+function AdminLayout() {
+  return <AdminRoutes />;
 }
 
 export default App;
